@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\Response;
 
 class StudentController extends Controller
 {
@@ -30,14 +34,18 @@ class StudentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new account
      *
      * @param  \App\Http\Requests\StoreStudentRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreStudentRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        Student::create($data);
+        return Response::json(['status'=>'ok']);
+
     }
 
     /**
@@ -83,5 +91,33 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         //
+    }
+    /**
+     * Login user
+     */
+    public function login(Request $request){
+
+        $id = $request->post('emailorid');
+        $password = $request->post('password');
+
+        $student = Student::where('student_id', $id)->first();
+        if ($student){
+            if (Hash::check($password, $student->password)){
+                Auth::login($student);
+                return Response::json(['status'=>'ok','data'=>Auth::user()]);
+            }
+        }
+        return Response::json(['status'=>'error','message'=>'Invalid user or password'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+    }
+    /**
+     * Login user
+     */
+    public function logout(Request $request){
+        if (Auth::check()){
+            Auth::logout();
+            return Response::json(['status'=>'ok','message'=>'Logged out successfully!']);
+
+        }
+        return Response::json(['status'=>'error','message'=>'Failed to logout'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Shared\AddressController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Shared\DepartmentController;
+use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/csrf',function (){
+    return \Illuminate\Support\Facades\Response::json(['csrf'=>csrf_token()]);
 });
+
 Route::resource('address', AddressController::class);
+Route::resource('department', DepartmentController::class);
+Route::resource('student', StudentController::class);
+Route::resource('admin', AdminController::class);
+Route::post('student/login', 'App\Http\Controllers\Student\StudentController@login');
+Route::post('student/logout', 'App\Http\Controllers\Student\StudentController@logout');
+
+
