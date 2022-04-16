@@ -20,11 +20,11 @@ class DepartmentFactory extends Factory
         return [
             'name' => 'Computer Science and Engineering',
             'name_short'=>'CSE',
-            'description'=>'description .... ddd',
+            'description'=>'Computer stuff',
             'birth_date'=>Date::now(),
             'icon'=>'icon',
-            'backdrop'=>'bd',
-            'external_link'=>'el',
+            'backdrop'=>'https://www.baust.edu.bd/wp-content/themes/wpt-unipro-ius/assets/images/hero-leftside3.jpg',
+            'external_link'=>'http://baust.edu.bd/',
         ];
     }
 }
