@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Department extends Model
 {
-    protected $hidden = ["updated_at","name", "description", "birth_date", "icon","backdrop","external_link","created_at"];
+    protected $hidden = ["updated_at","created_at"];
+    protected $fillable = ["updated_at","name", "description", "birth_date", "icon","backdrop","external_link","created_at"];
+    protected $casts = [];
     use HasFactory;
 }
