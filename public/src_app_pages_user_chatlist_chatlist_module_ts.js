@@ -132,7 +132,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \*******************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>message list</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>message list</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<h1>TODO: User chat list</h1>\n</ion-content>\n";
 
 /***/ })
 

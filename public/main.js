@@ -11,12 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "GlobalConstant": () => (/* binding */ GlobalConstant)
 /* harmony export */ });
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../environments/environment */ 2340);
+
 class GlobalConstant {
 }
-GlobalConstant.apiUrl = 'http://127.0.0.1/api/';
-GlobalConstant.siteRoot = 'http://127.0.0.1/';
-GlobalConstant.appName = 'BAUSTian';
-GlobalConstant.appDescription = '';
+GlobalConstant.apiUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl;
+GlobalConstant.siteRoot = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.siteRoot;
+GlobalConstant.appName = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.appName;
+GlobalConstant.appDescription = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.appDescription;
 
 
 /***/ }),
@@ -77,7 +79,7 @@ const routes = [
     },
     {
         path: 'departments',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_pages_global_departmentlist_departmentlist_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/global/departmentlist/departmentlist.module */ 2276)).then(m => m.DepartmentlistPageModule),
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_pages_global_departmentlist_departmentlist_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/global/departmentlist/departmentlist.module */ 2276)).then(m => m.DepartmentlistPageModule),
         canLoad: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_0__.AuthGuard]
     },
     {
@@ -181,7 +183,7 @@ let AppComponent = class AppComponent {
             { title: 'Signup', url: '/signup', icon: 'person-circle', visible: false },
             { title: 'Profile', url: '/profile', icon: 'person-circle', visible: false },
             { title: 'Departments', url: '/departments', icon: 'dice', visible: false },
-            { title: 'Student List', url: '/departments/id/students', icon: 'people-circle', visible: false },
+            //{title: 'Student List', url: '/departments/id/students', icon: 'people-circle', visible: false},
             { title: 'Messages', url: '/messages', icon: 'chatbox-ellipses', visible: false },
             { title: 'Blog', url: '/blog', icon: 'desktop', visible: false },
             { title: 'Notices', url: '/notices', icon: 'alert-circle', visible: false },
@@ -794,7 +796,11 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const environment = {
-    production: false
+    production: false,
+    apiUrl: 'http://127.0.0.1/api/',
+    siteRoot: 'http://127.0.0.1/',
+    appName: 'BAUSTian',
+    appDescription: '',
 };
 /*
  * For easier debugging in development mode, you can import the following file

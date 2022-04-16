@@ -90,22 +90,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DepartmentlistPage": () => (/* binding */ DepartmentlistPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _departmentlist_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./departmentlist.page.html?ngResource */ 579);
 /* harmony import */ var _departmentlist_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./departmentlist.page.scss?ngResource */ 3214);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _services_department_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/department.service */ 5148);
+/* harmony import */ var _services_loader_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/loader.service */ 8555);
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ 318);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 2816);
+
+
+
+
 
 
 
 
 let DepartmentlistPage = class DepartmentlistPage {
-    constructor() { }
+    constructor(departmentService, loaderService, sanitizer, router) {
+        this.departmentService = departmentService;
+        this.loaderService = loaderService;
+        this.sanitizer = sanitizer;
+        this.router = router;
+    }
     ngOnInit() {
+        this.loadDepartments();
+    }
+    loadDepartments() {
+        this.departmentService.getDepartments().subscribe((succ) => {
+            this.departments = succ;
+        }, (err) => {
+            this.loaderService.showToast('Failed to load departments', 'danger', 3000);
+        });
     }
 };
-DepartmentlistPage.ctorParameters = () => [];
-DepartmentlistPage = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Component)({
+DepartmentlistPage.ctorParameters = () => [
+    { type: _services_department_service__WEBPACK_IMPORTED_MODULE_2__.DepartmentService },
+    { type: _services_loader_service__WEBPACK_IMPORTED_MODULE_3__.LoaderService },
+    { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__.DomSanitizer },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.Router }
+];
+DepartmentlistPage = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
         selector: 'app-departmentlist',
         template: _departmentlist_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_departmentlist_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -132,7 +158,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \*********************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>department list</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col size-sm=\"4\" size-xl=\"4\" size-md=\"6\" size-lg=\"4\" size-xs=\"12\">\n        <ion-card>\n          <ion-card-header>\n            <img src=\"http://placehold.jp/1280x720.png\" alt=\"dev image\">\n            <ion-card-title>S. M. A Sayem Prodhan</ion-card-title>\n            <ion-card-subtitle>200101091</ion-card-subtitle>\n          </ion-card-header>\n          <ion-card-content>\n            Info about what has contributed\n          </ion-card-content>\n        </ion-card>\n      </ion-col>\n      <ion-col size-sm=\"4\" size-xl=\"4\" size-md=\"6\" size-lg=\"4\" size-xs=\"12\">\n        <ion-card>\n          <ion-card-header>\n            <img src=\"http://placehold.jp/1280x720.png\" alt=\"dev image\">\n            <ion-card-title>S. M. A Sayem Prodhan</ion-card-title>\n            <ion-card-subtitle>200101091</ion-card-subtitle>\n          </ion-card-header>\n          <ion-card-content>\n            Info about what has contributed\n          </ion-card-content>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>department list</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n\n    <ion-row>\n      <ion-col *ngFor=\"let department of departments\" size-sm=\"4\" size-xl=\"4\" size-md=\"6\" size-lg=\"4\" size-xs=\"12\">\n        <ion-card [button]=\"true\" (click)=\"router.navigateByUrl('/departments/'+department.id+'/students')\">\n          <ion-card-header>\n            <img [src]=\"sanitizer.bypassSecurityTrustUrl(department.backdrop)\" alt=\"dept image {{ department.name }}\">\n            <ion-card-title>{{department.name}} ({{department.name_short}})</ion-card-title>\n            <ion-card-subtitle>Since: {{department.birth_date}} </ion-card-subtitle>\n          </ion-card-header>\n          <ion-card-content>\n            {{department.description}}\n            <ion-list>\n              <ion-item>\n\n              </ion-item>\n            </ion-list>\n          </ion-card-content>\n\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n";
 
 /***/ })
 

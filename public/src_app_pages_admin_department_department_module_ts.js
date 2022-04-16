@@ -151,13 +151,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DepartmentPage": () => (/* binding */ DepartmentPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _department_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./department.page.html?ngResource */ 8967);
 /* harmony import */ var _department_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./department.page.scss?ngResource */ 9022);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _services_department_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/department.service */ 5148);
 /* harmony import */ var _services_loader_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/loader.service */ 8555);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/platform-browser */ 318);
+
 
 
 
@@ -166,10 +168,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let DepartmentPage = class DepartmentPage {
-    constructor(router, departmentService, loaderService) {
+    constructor(router, departmentService, loaderService, sanitizer) {
         this.router = router;
         this.departmentService = departmentService;
         this.loaderService = loaderService;
+        this.sanitizer = sanitizer;
     }
     ngOnInit() {
         //load departments
@@ -186,10 +189,11 @@ let DepartmentPage = class DepartmentPage {
 DepartmentPage.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__.Router },
     { type: _services_department_service__WEBPACK_IMPORTED_MODULE_2__.DepartmentService },
-    { type: _services_loader_service__WEBPACK_IMPORTED_MODULE_3__.LoaderService }
+    { type: _services_loader_service__WEBPACK_IMPORTED_MODULE_3__.LoaderService },
+    { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_5__.DomSanitizer }
 ];
-DepartmentPage = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
+DepartmentPage = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
         selector: 'app-department',
         template: _department_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_department_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -266,7 +270,7 @@ module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-butt
   \************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>admin>departments</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col *ngFor=\"let department of departments\" size-sm=\"4\" size-xl=\"4\" size-md=\"6\" size-lg=\"4\" size-xs=\"12\">\n        <ion-card [button]=\"true\">\n          <ion-card-header>\n            <img [src]=\"department.backdrop\" alt=\"dept image {{ department.name }}\">\n            <ion-card-title>{{department.name}} ({{department.name_short}})</ion-card-title>\n            <ion-card-subtitle>Since: {{department.birth_date}} </ion-card-subtitle>\n          </ion-card-header>\n          <ion-card-content>\n            {{department.description}}\n            <ion-list>\n              <ion-item>\n                <ion-button (click)=\"router.navigateByUrl('/admin/department/edit/'+department.id)\" color=\"primary\">\n                  <ion-icon name=\"create-sharp\" ios=\"create-outline\" md=\"create-sharp\"></ion-icon> Edit\n                </ion-button>\n              </ion-item>\n            </ion-list>\n          </ion-card-content>\n\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n";
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>admin>departments</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col *ngFor=\"let department of departments\" size-sm=\"4\" size-xl=\"4\" size-md=\"6\" size-lg=\"4\" size-xs=\"12\">\n        <ion-card [button]=\"true\">\n          <ion-card-header>\n            <img [src]=\"sanitizer.bypassSecurityTrustUrl(department.backdrop)\" alt=\"dept image {{ department.name }}\">\n            <ion-card-title>{{department.name}} ({{department.name_short}})</ion-card-title>\n            <ion-card-subtitle>Since: {{department.birth_date}} </ion-card-subtitle>\n          </ion-card-header>\n          <ion-card-content>\n            {{department.description}}\n            <ion-list>\n              <ion-item>\n                <ion-button (click)=\"router.navigateByUrl('/admin/department/edit/'+department.id)\" color=\"primary\">\n                  <ion-icon name=\"create-sharp\" ios=\"create-outline\" md=\"create-sharp\"></ion-icon> Edit\n                </ion-button>\n\n                <ion-button (click)=\"router.navigateByUrl('/departments/'+department.id+'/students')\" color=\"primary\">\n                  <ion-icon name=\"list-sharp\" ios=\"list-outline\" md=\"list-sharp\"></ion-icon> Students\n                </ion-button>\n              </ion-item>\n            </ion-list>\n          </ion-card-content>\n\n        </ion-card>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n";
 
 /***/ }),
 
