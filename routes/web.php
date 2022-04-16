@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/api/csrf',function (){
+    return \Illuminate\Support\Facades\Response::json(['csrf'=>csrf_token()]);
+});
 Route::get('/', function () {
     return redirect('/index.html');
 });

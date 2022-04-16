@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/csrf',function (){
-    return \Illuminate\Support\Facades\Response::json(['csrf'=>csrf_token()]);
-});
+
 
 Route::resource('address', AddressController::class);
 Route::resource('department', DepartmentController::class);
