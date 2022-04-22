@@ -51,12 +51,38 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+     * @param  string  $student
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Student $student)
+    public function show($student)
     {
-        //
+        $student_resource = null;
+        if (strtolower(substr($student, 0,4)) == 'UNI-'){
+            $id = substr($student, 4);
+            $student_resource = Student::where('student_id', $id);
+        }elseif ($student == 'me'){
+            if (Auth::check()){
+                $student_resource = Student::where('id', Auth::user()->id);
+            }else{
+                $student_resource = Student::where('id', 0);
+            }
+        }else{
+            $student_resource = Student::where('id', $student);
+        }
+        $student = $student_resource->first();
+        if ($student){
+            return Response::json([
+                'status'=>'ok',
+                'message'=>'Success',
+                'data'=>$student
+            ]);
+        }
+        return Response::json([
+            'status'=>'error',
+            'message'=>'Profile not Found!',
+            'data'=>null
+        ]);
+
     }
 
     /**
