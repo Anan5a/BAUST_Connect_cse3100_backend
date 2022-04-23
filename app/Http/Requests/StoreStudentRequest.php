@@ -23,7 +23,6 @@ class StoreStudentRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             'batch'=>'required|max:2|min:1',
             'password'=>'required|min:8',
@@ -33,11 +32,12 @@ class StoreStudentRequest extends FormRequest
             'student_id'=>'required|size:9',
         ];
     }
-    public function all($keys = null){
+/*    public function all($keys = null){
         if(empty($keys)){
             return parent::json()->all();
         }
 
         return collect(parent::json()->all())->only($keys)->toArray();
     }
+*/
 }
