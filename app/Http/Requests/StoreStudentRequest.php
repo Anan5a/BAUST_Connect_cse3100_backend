@@ -23,6 +23,7 @@ class StoreStudentRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->all());
         return [
             'batch'=>'required|max:2|min:1',
             'password'=>'required|min:8',
