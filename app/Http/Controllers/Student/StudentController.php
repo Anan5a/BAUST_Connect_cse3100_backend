@@ -57,7 +57,7 @@ class StudentController extends Controller
     public function show($student)
     {
         $student_resource = null;
-        if (strtolower(substr($student, 0,4)) == 'UNI-'){
+        if (strtolower(substr($student, 0,4)) == 'uni-'){
             $id = substr($student, 4);
             $student_resource = Student::where('student_id', $id);
         }elseif ($student == 'me'){
