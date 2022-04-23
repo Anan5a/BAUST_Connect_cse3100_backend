@@ -29,7 +29,7 @@ class StoreStudentRequest extends FormRequest
             'department_id'=>'required|exists:App\Models\Department,id',
             'email'=>'required|email',
             'full_name'=>'required|min:10|max:60',
-            'student_id'=>'required|size:9',
+            'student_id'=>'required|size:9|unique:App\Models\Student,student_id',
         ];
     }
 /*    public function all($keys = null){
