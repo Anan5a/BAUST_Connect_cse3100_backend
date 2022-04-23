@@ -24,7 +24,7 @@ class StoreStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'batch'=>'required|max:2|min:1|regex:^[1-9]*$',
+            'batch'=>'required|max:2|min:1|regex:^[^0][0-9]*$',
             'password'=>'required|min:8',
             'department_id'=>'required|exists:App\Models\Department,id',
             'email'=>'required|email',
