@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('address', AddressController::class);
 Route::resource('department', DepartmentController::class);
-Route::resource('student', StudentController::class);
-Route::resource('admin', AdminController::class);
 Route::post('student/login', 'App\Http\Controllers\Student\StudentController@login');
 Route::post('student/logout', 'App\Http\Controllers\Student\StudentController@logout');
+Route::resource('student', StudentController::class);
+Route::resource('admin', AdminController::class);
 
 
