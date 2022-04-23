@@ -41,7 +41,6 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request)
     {
-        dd($request->validated());
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
         Student::create($data);
