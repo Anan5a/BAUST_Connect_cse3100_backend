@@ -45,7 +45,6 @@ class StudentController extends Controller
         $data['password'] = Hash::make($data['password']);
         Student::create($data);
         return Response::json(['status'=>'ok']);
-
     }
 
     /**
