@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateDepartmentRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::guard("admins")->check() && $this->user("admins")->level == "S";
     }
 
     /**
@@ -24,7 +25,13 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>'required',
+            'name_short'=>'required',
+            'description'=>'required',
+            'birth_date'=>'required|date',
+            'backdrop'=>'required',
+            'external_link'=>'required',
+            'icon'=>'required'
         ];
     }
 }

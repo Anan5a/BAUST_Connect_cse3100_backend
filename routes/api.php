@@ -20,10 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('address', AddressController::class);
+
+Route::get('department/student-list/{department}', 'App\Http\Controllers\Shared\DepartmentController@showStudentList');
 Route::resource('department', DepartmentController::class);
 Route::post('student/login', 'App\Http\Controllers\Student\StudentController@login');
 Route::post('student/logout', 'App\Http\Controllers\Student\StudentController@logout');
 Route::resource('student', StudentController::class);
+Route::post('admin/login', 'App\Http\Controllers\Admin\AdminController@login');
+Route::post('admin/logout', 'App\Http\Controllers\Admin\AdminController@logout');
 Route::resource('admin', AdminController::class);
-
 

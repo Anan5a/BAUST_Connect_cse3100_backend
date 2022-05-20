@@ -5,18 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Http\Requests\ViewAdminRequest;
+use App\Http\Resources\AdminResource;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AdminResource
      */
-    public function index()
+    public function index(ViewAdminRequest $request)
     {
-        //
+        return new AdminResource(Admin::paginate(50));
     }
 
     /**
@@ -83,5 +89,29 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         //
+    }
+    public function login(Request $request){
+
+        $id = $request->post('emailorid');
+        $password = $request->post('password');
+        if (Auth::guard("admins")->attempt([
+            'uni_per_id'=>$id,
+            'password'=>$password
+        ])){
+            $request->session()->regenerate();
+            return Response::json(['status'=>'ok','data'=>Auth::guard("admins")->user()]);
+        }
+        return \response()->json(['status'=>'error','message'=>'Invalid user or password'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+    }
+    /**
+     * logout user
+     */
+    public function logout(Request $request){
+        if (Auth::guard("admins")->check()){
+            Auth::guard("admins")->logout();
+            return Response::json(['status'=>'ok','message'=>'Logged out successfully!']);
+
+        }
+        return Response::json(['status'=>'error','message'=>'Failed to logout'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
     }
 }

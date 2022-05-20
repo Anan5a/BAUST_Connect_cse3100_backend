@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreDepartmentRequest extends FormRequest
+class ViewDepartmentStudentListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,12 +14,12 @@ class StoreDepartmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return
-            Auth::guard("admins")->check()
-            &&
-            (
+        return Auth::guard("admins")->check()
+        &&
+        (
             $this->user("admins")->level == "S"
-            );
+            || $this->user("admins")->level == "M"
+        );
     }
 
     /**
@@ -30,13 +30,7 @@ class StoreDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
-            'name_short'=>'required',
-            'description'=>'required',
-            'birth_date'=>'required|date',
-            'backdrop'=>'required',
-            'external_link'=>'required',
-            'icon'=>'required'
+            //
         ];
     }
 }

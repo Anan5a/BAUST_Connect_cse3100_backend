@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('uni_per_id')->unique();
             $table->string('full_name');
             $table->string('password');
+            $table->string('email')->unique();
             $table->string('level', 1)->default('F');
             $table->string('profile_picture');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

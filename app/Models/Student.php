@@ -66,4 +66,9 @@ class Student extends Authenticatable
     {
         return $this->hasMany(Address::class);
     }
+
+    public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

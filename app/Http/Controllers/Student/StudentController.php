@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Models\ContactChannel;
 use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,12 +44,17 @@ class StudentController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
-        Student::create($data);
-        return Response::json(['status'=>'ok']);
+        try {
+            Student::create($data);
+            return \response()->json(['status'=>'ok']);
+        }catch (\Exception $e){
+
+        }
+        return \response()->json(['status'=>'error', 'message'=>"Failed to create account!"], \Illuminate\Http\Response::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Display the specified resource.
+     * Display the student info
      *
      * @param  string  $student
      * @return \Illuminate\Http\JsonResponse
@@ -58,22 +64,33 @@ class StudentController extends Controller
         $student_resource = null;
         if (strtolower(substr($student, 0,4)) == 'uni-'){
             $id = substr($student, 4);
-            $student_resource = Student::where('student_id', $id);
+            $student_resource = Student::where('student_id', $id)
+                ->with('currentAddress')
+                ->with('department');
         }elseif ($student == 'me'){
             if (Auth::check()){
-                $student_resource = Student::where('id', Auth::user()->id);
+                $student_resource = Student::where('id', Auth::user()->id)
+                    ->with('currentAddress')
+                    ->with('department');
             }else{
-                $student_resource = Student::where('id', 0);
+                $student_resource = Student::where('id', 0)
+                    ->with('currentAddress')
+                    ->with('department');
             }
         }else{
-            $student_resource = Student::where('id', $student);
+            $student_resource = Student::where('id', $student)
+                ->with('currentAddress')
+                ->with('department');
         }
         $student = $student_resource->first();
         if ($student){
+            //retrieve $student contacts
             return Response::json([
                 'status'=>'ok',
                 'message'=>'Success',
-                'data'=>$student
+                'data'=>[
+                    'info'=>$student,
+                ]
             ]);
         }
         return Response::json([
