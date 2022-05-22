@@ -142,7 +142,9 @@ class StudentController extends Controller
         $id = $request->post('emailorid');
         $password = $request->post('password');
 
-        $student = Student::where('student_id', $id)->first();
+        $student = Student::where('student_id', $id)
+            ->with('department')
+            ->first();
         if ($student){
             if (Hash::check($password, $student->password)){
                 Auth::login($student);
