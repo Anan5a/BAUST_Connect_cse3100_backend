@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class StoreAdminRequest extends FormRequest
+class AdminActionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,6 +15,15 @@ class StoreAdminRequest extends FormRequest
      */
     public function authorize()
     {
+        if (str_starts_with($this->input('action', null), "student#")){
+            return
+                Auth::guard("admins")->check()
+                &&
+                (
+                    $this->user("admins")->level == "S" ||
+                    $this->user("admins")->level == "M"
+                );
+        }
         return
             Auth::guard("admins")->check()
             &&
@@ -31,14 +40,11 @@ class StoreAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'password'=>'required|min:8',
-            'level'=>[
+            'action'=>[
                 'required',
-                'in'=>Rule::in(["S", "M"])
+                Rule::in(['student#ban', 'student#unban', 'admin#activate', 'admin#deactivate'])
             ],
-            'email'=>'required|email',
-            'full_name'=>'required|min:7|max:60',
-            'uni_per_id'=>'required|size:9|unique:App\Models\Admin,uni_per_id',
+            'payload'=>'required'
         ];
     }
 }

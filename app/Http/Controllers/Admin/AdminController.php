@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminActionRequest;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Http\Requests\ViewAdminRequest;
@@ -39,11 +40,19 @@ class AdminController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreAdminRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreAdminRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        try {
+            $data['profile_picture'] = 'none';
+            Admin::create($data);
+            return response()->json(['status'=>'ok', 'message'=>'Admin created successfully']);
+        }catch (\Exception $e){
+        }
+        return response()->json(['status'=>'error', 'message'=>"Failed to create admin!"], \Illuminate\Http\Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -113,5 +122,13 @@ class AdminController extends Controller
 
         }
         return Response::json(['status'=>'error','message'=>'Failed to logout'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * other actions
+     */
+    public function action(AdminActionRequest $request)
+    {
+
     }
 }
