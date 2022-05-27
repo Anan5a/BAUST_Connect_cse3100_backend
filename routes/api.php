@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Shared\AddressController;
+use App\Http\Controllers\Shared\ContactChannelController;
 use App\Http\Controllers\Shared\DepartmentController;
+use App\Http\Controllers\Student\ChatController;
 use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+Route::get('/csrf',function (){
+    return \Illuminate\Support\Facades\Response::json(['csrf'=>csrf_token()]);
+});
 Route::resource('address', AddressController::class);
-
 Route::get('department/student-list/{department}', 'App\Http\Controllers\Shared\DepartmentController@showStudentList');
 Route::resource('department', DepartmentController::class);
 Route::post('student/login', 'App\Http\Controllers\Student\StudentController@login');
@@ -29,4 +32,7 @@ Route::resource('student', StudentController::class);
 Route::post('admin/login', 'App\Http\Controllers\Admin\AdminController@login');
 Route::post('admin/logout', 'App\Http\Controllers\Admin\AdminController@logout');
 Route::resource('admin', AdminController::class);
+Route::resource('contact', ContactChannelController::class);
+Route::post('chat/receive', 'App\Http\Controllers\Student\ChatController@receive');
+Route::resource('chat', ChatController::class);
 

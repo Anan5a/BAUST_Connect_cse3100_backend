@@ -66,25 +66,35 @@ class StudentController extends Controller
             $id = substr($student, 4);
             $student_resource = Student::where('student_id', $id)
                 ->with('currentAddress')
-                ->with('department');
+                ->with('department')
+                ->with('contacts');
         }elseif ($student == 'me'){
             if (Auth::check()){
                 $student_resource = Student::where('id', Auth::user()->id)
                     ->with('currentAddress')
-                    ->with('department');
+                    ->with('department')
+                    ->with('contacts');
             }else{
                 $student_resource = Student::where('id', 0)
                     ->with('currentAddress')
-                    ->with('department');
+                    ->with('department')
+                    ->with('contacts');
             }
         }else{
             $student_resource = Student::where('id', $student)
                 ->with('currentAddress')
-                ->with('department');
+                ->with('department')
+                ->with('contacts');
         }
         $student = $student_resource->first();
         if ($student){
             //retrieve $student contacts
+            $student = $this->transformContactToObject($student);
+            if (!Auth::check()){
+                //hide email
+                $student->email = null;
+            }
+
             return Response::json([
                 'status'=>'ok',
                 'message'=>'Success',
@@ -163,5 +173,13 @@ class StudentController extends Controller
 
         }
         return Response::json(['status'=>'error','message'=>'Failed to logout'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+    }
+
+    private function transformContactToObject($student)
+    {
+        foreach ($student['contacts'] as $key=>$contact){
+            $student['contacts'][$key]['channel_data'] = json_decode($contact['channel_data']);
+        }
+        return $student;
     }
 }

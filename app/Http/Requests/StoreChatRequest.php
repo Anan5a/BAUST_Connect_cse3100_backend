@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreChatRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreChatRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check() && Auth::hasUser() && $this->input('to') != Auth::user()->id;
     }
 
     /**
@@ -24,7 +25,8 @@ class StoreChatRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "content"=>"required|min:2|max:250",
+            "to"=>"required|exists:students,id",
         ];
     }
 }

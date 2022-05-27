@@ -107,7 +107,7 @@ class AdminController extends Controller
             'uni_per_id'=>$id,
             'password'=>$password
         ])){
-            $request->session()->regenerate();
+            //$request->session()->regenerate();
             return Response::json(['status'=>'ok','data'=>Auth::guard("admins")->user()]);
         }
         return \response()->json(['status'=>'error','message'=>'Invalid user or password'], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);

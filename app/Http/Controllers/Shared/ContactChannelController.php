@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreContactChannelRequest;
 use App\Http\Requests\UpdateContactChannelRequest;
 use App\Models\ContactChannel;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ContactChannelController extends Controller
 {
@@ -33,11 +35,22 @@ class ContactChannelController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreContactChannelRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreContactChannelRequest $request)
     {
-        //
+        $channel_data = $request->validated();
+        unset($channel_data["type"]);
+        try {
+            ContactChannel::create([
+                "type"=>($request->validated("type") == 'job' ? 2 : 1),
+                "channel_data"=>json_encode($channel_data),
+                "student_id"=>Auth::user()->id,
+            ]);
+            return response()->json(["status"=>"ok","message"=>"Information added successfully","data"=>null]);
+        }catch (\Exception $e){
+            return response()->json(["status"=>"error","message"=>"Failed to store information","data"=>null], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
     /**

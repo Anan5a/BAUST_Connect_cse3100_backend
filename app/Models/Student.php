@@ -71,4 +71,8 @@ class Student extends Authenticatable
     {
         return $this->belongsTo(Department::class);
     }
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(ContactChannel::class);
+    }
 }

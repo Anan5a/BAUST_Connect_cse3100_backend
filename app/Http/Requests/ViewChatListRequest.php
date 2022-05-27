@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreAddressRequest extends FormRequest
+class ViewChatListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,7 @@ class StoreAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            "division"=>"required|string",
-            "district"=>"required|string",
-            "sub_district"=>"required|string"
+
         ];
     }
 }

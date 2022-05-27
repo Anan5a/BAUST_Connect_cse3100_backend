@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Chat;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ViewChatRequest extends FormRequest
 {
@@ -13,7 +15,16 @@ class ViewChatRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        $msg = Chat::find($this->input("msg_id"))->first();
+        return
+            Auth::check()
+            &&
+            Auth::hasUser()
+            &&
+            $msg->from == Auth::user()->id
+            &&
+            $msg->to == $this->input("to")
+            ;
     }
 
     /**
@@ -24,7 +35,8 @@ class ViewChatRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "to"=>"required|exists:students,id",
+            "msg_id"=>"nullable|exists:chats,id"
         ];
     }
 }

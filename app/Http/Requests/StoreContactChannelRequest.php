@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
 
 class StoreContactChannelRequest extends FormRequest
 {
@@ -13,7 +16,7 @@ class StoreContactChannelRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check() && Auth::hasUser();
     }
 
     /**
@@ -24,7 +27,15 @@ class StoreContactChannelRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "place_name"=>"required",
+            "position"=>"required",
+            "web_link"=>"required|active_url",
+            "enroll_start"=>"required|date",
+            "enroll_end"=>"nullable|date",
+            "type"=>[
+                "required",
+                Rule::in(['job','ac'])
+            ]
         ];
     }
 }
