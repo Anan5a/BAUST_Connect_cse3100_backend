@@ -25,7 +25,8 @@ class ChatController extends Controller
     public function index(ViewChatListRequest $request)
     {
         //load list of messages
-        $list = Chat::where("from",Auth::user()->id)
+        $list = Chat::where("to",Auth::user()->id)
+            //->orWhere("to",Auth::user()->id)
             ->orderBy('id','desc')
             //->groupBy('to')
             //->distinct()
