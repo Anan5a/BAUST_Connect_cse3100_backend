@@ -96,12 +96,6 @@ class Homepage extends Controller
         if ($request->validated('dept')){
             $base_query->where('department_id','=',$request->validated('dept'));
         }
-        /*if ($request->validated('batch')){
-            $base_query->where('batch','=',$request->validated('batch'));
-        }*/
-        /*
-         * Lastly
-         */
         $query = str_replace(['%', '_'], '', $request->validated('query'));
 
         $base_query->orWhere('full_name','like',"%{$query}%");
@@ -114,8 +108,5 @@ class Homepage extends Controller
         }catch (\Exception $e){
             return response()->json(['status'=>'error','message'=>'failed '.$e->getMessage(),'data'=>null], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-
-
-
     }
 }
