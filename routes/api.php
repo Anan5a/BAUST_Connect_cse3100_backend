@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Shared\AddressController;
 use App\Http\Controllers\Shared\ContactChannelController;
 use App\Http\Controllers\Shared\DepartmentController;
+use App\Http\Controllers\Shared\Homepage;
 use App\Http\Controllers\Student\ChatController;
 use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -31,8 +32,12 @@ Route::post('student/logout', 'App\Http\Controllers\Student\StudentController@lo
 Route::resource('student', StudentController::class);
 Route::post('admin/login', 'App\Http\Controllers\Admin\AdminController@login');
 Route::post('admin/logout', 'App\Http\Controllers\Admin\AdminController@logout');
+Route::post('admin/summary', 'App\Http\Controllers\Admin\AdminController@admin_summary');
 Route::resource('admin', AdminController::class);
 Route::resource('contact', ContactChannelController::class);
-Route::post('chat/receive', 'App\Http\Controllers\Student\ChatController@receive');
+Route::post('chat/get', 'App\Http\Controllers\Student\ChatController@receive');
 Route::resource('chat', ChatController::class);
+Route::post('homepage/search', 'App\Http\Controllers\Shared\Homepage@search');
+Route::resource('homepage', Homepage::class);
+
 

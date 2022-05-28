@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminActionRequest;
+use App\Http\Requests\AdminSearchRequest;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Http\Requests\ViewAdminRequest;
 use App\Http\Resources\AdminResource;
 use App\Models\Admin;
+use App\Models\Department;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
@@ -131,4 +135,23 @@ class AdminController extends Controller
     {
 
     }
+    /**
+     * search actions
+     */
+    public function search(AdminSearchRequest $request)
+    {
+
+    }
+
+    public function admin_summary(ViewAdminRequest $request)
+    {
+        $data = [
+            'dept_count'=>Department::count(),
+            'student_count'=>Student::count(),
+            'admin_count'=>Admin::count(),
+        ];
+
+        return \response()->json(['status'=>'ok','message'=>'success','data'=>$data]);
+    }
+
 }

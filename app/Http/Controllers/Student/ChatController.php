@@ -10,10 +10,13 @@ use App\Models\Chat;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\returnArgument;
 
 class ChatController extends Controller
 {
+    private $max_message = 100;
+
     /**
      * Display a listing of the resource.
      *
@@ -23,12 +26,14 @@ class ChatController extends Controller
     {
         //load list of messages
         $list = Chat::where("from",Auth::user()->id)
-            ->latest()
-            //->orderBy('created_at','desc')
-            //->distinct('to')
-            ->groupBy('to')
-            ->with('receiver');
-        return \response()->json(["status"=>"ok","message"=>"List","data"=>$list->get()]);
+            ->orderBy('id','desc')
+            //->groupBy('to')
+            //->distinct()
+            ->with('receiver')
+            //->select('to')
+        ;
+            //->groupBy('to')
+        return \response()->json(["status"=>"ok","message"=>"List","data"=>$list->get()->unique('to')]);
     }
 
     /**
@@ -108,6 +113,35 @@ class ChatController extends Controller
     //receive message
     public function receive(ViewChatRequest $request)
     {
+        $new_messages = null;
+
+        if ($request->validated('msg_id') == null){
+            //sent by 'to'
+            $new_messages =
+                Chat::where(function ($query) use ($request){
+                    $query->where("from",$request->validated('to'))
+                        ->where('to',Auth::user()->id);
+
+                })
+                ->orWhere(function ($query) use ($request){
+                    $query->where('from', Auth::user()->id)
+                        ->where("to",$request->validated('to'));
+                })
+                ->orderBy('id','desc')
+                ->limit($this->max_message)
+                ->get();
+        }else{
+            $new_messages = Chat::where("from",$request->validated('to'))
+                ->where('to',Auth::user()->id)
+                ->where('id','>',$request->validated('msg_id'))
+                ->orderBy('id','desc')
+                ->limit($this->max_message)
+                ->get();
+
+        }
+        return response()->json(["status"=>"ok","message"=>"New message","data"=>$new_messages]);
 
     }
+
+
 }

@@ -15,16 +15,23 @@ class ViewChatRequest extends FormRequest
      */
     public function authorize()
     {
-        $msg = Chat::find($this->input("msg_id"))->first();
+        if ($this->input("msg_id") != null){
+            $msg = Chat::where('id', $this->input("msg_id"))->first();
+            return
+                Auth::check()
+                &&
+                Auth::hasUser()
+                &&
+                ($msg->from == Auth::user()->id ||$msg->from == $this->input('to'))
+                &&
+                ($msg->to == $this->input("to") || $msg->to == Auth::user()->id)
+                ;
+        }
         return
             Auth::check()
             &&
-            Auth::hasUser()
-            &&
-            $msg->from == Auth::user()->id
-            &&
-            $msg->to == $this->input("to")
-            ;
+            Auth::hasUser();
+
     }
 
     /**
