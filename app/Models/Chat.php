@@ -19,4 +19,9 @@ class Chat extends Model
     {
         return $this->belongsTo(Student::class, "to",null);
     }
+    public function sender(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Student::class, "from",null);
+    }
+
 }

@@ -30,7 +30,7 @@ class ChatController extends Controller
             ->orderBy('id','desc')
             //->groupBy('from')
             //->distinct()
-            ->with('receiver')
+            ->with('sender')
             //->select('to')
         ;
             //->groupBy('to')
