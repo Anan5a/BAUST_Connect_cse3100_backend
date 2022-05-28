@@ -28,7 +28,7 @@ class ChatController extends Controller
         $list = Chat::where("to",Auth::user()->id)
             //->orWhere("to",Auth::user()->id)
             ->orderBy('id','desc')
-            //->groupBy('from')
+            ->groupBy('from')
             //->distinct()
             ->with('sender')
             //->select('to')
