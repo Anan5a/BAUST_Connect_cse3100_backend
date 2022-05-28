@@ -91,10 +91,10 @@ class Homepage extends Controller
         $base_query = Student::query()
             ->where('student_id','=', $request->validated('query'));
         if ($request->validated('batch')){
-            $base_query->orWhere('batch','=',$request->validated('batch'));
+            $base_query->where('batch','=',$request->validated('batch'));
         }
         if ($request->validated('dept')){
-            $base_query->orWhere('department_id','=',$request->validated('dept'));
+            $base_query->where('department_id','=',$request->validated('dept'));
         }
         /*if ($request->validated('batch')){
             $base_query->where('batch','=',$request->validated('batch'));
