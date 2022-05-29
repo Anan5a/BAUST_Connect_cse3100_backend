@@ -25,9 +25,9 @@ class HomepageSearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'query'=>'required|string|min:4|max:14',
-            'batch'=>'nullable|max:2|min:1',
-            'dept'=>'nullable|exists:departments,id',
+            'query'=>'required|string|min:3|max:14',
+            'batch'=>'nullable|required_if:query,==,all|max:2|min:1',
+            'dept'=>'nullable|required_if:query,==,all|exists:departments,id',
             'job'=>[
                 'nullable',
                 Rule::in(['job', 'no'])

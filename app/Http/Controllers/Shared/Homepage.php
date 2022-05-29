@@ -88,18 +88,26 @@ class Homepage extends Controller
 
     public function search(HomepageSearchRequest $request)
     {
-        $base_query = Student::query()
-            ->where('student_id','=', $request->validated('query'));
-        if ($request->validated('batch')){
-            $base_query->where('batch','=',$request->validated('batch'));
-        }
-        if ($request->validated('dept')){
-            $base_query->where('department_id','=',$request->validated('dept'));
-        }
-        $query = str_replace(['%', '_'], '', $request->validated('query'));
+        $base_query = null;
+        if ($request->input('query') == 'all'){
+            $base_query = Student::query()
+                //->where('student_id','=', $request->validated('query'))
+                ->where('batch','=',$request->validated('batch'))
+                ->where('department_id','=',$request->validated('dept'));
+        }else{
+            $base_query = Student::query()
+                ->where('student_id','=', $request->validated('query'));
+            if ($request->validated('batch')){
+                $base_query->where('batch','=',$request->validated('batch'));
+            }
+            if ($request->validated('dept')){
+                $base_query->where('department_id','=',$request->validated('dept'));
+            }
+            $query = str_replace(['%', '_'], '', $request->validated('query'));
 
-        $base_query->orWhere('full_name','like',"%{$query}%");
+            $base_query->orWhere('full_name','like',"%{$query}%");
 
+        }
         try {
             $result = $base_query
                 ->with('department')
