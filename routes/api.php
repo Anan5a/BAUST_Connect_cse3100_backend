@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Shared\AddressController;
 use App\Http\Controllers\Shared\ContactChannelController;
 use App\Http\Controllers\Shared\DepartmentController;
-use App\Http\Controllers\Shared\Homepage;
+use App\Http\Controllers\Shared\HomepageController;
 use App\Http\Controllers\Student\ChatController;
 use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +38,6 @@ Route::resource('contact', ContactChannelController::class);
 Route::post('chat/get', 'App\Http\Controllers\Student\ChatController@receive');
 Route::resource('chat', ChatController::class);
 Route::post('homepage/search', 'App\Http\Controllers\Shared\Homepage@search');
-Route::resource('homepage', Homepage::class);
+Route::resource('homepage', HomepageController::class);
 
 

@@ -14,7 +14,7 @@ class ContactChannelController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class ContactChannelController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -57,7 +57,7 @@ class ContactChannelController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\ContactChannel  $contactChannel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(ContactChannel $contactChannel)
     {
@@ -68,7 +68,7 @@ class ContactChannelController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\ContactChannel  $contactChannel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(ContactChannel $contactChannel)
     {
@@ -80,7 +80,7 @@ class ContactChannelController extends Controller
      *
      * @param  \App\Http\Requests\UpdateContactChannelRequest  $request
      * @param  \App\Models\ContactChannel  $contactChannel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(UpdateContactChannelRequest $request, ContactChannel $contactChannel)
     {
@@ -91,7 +91,7 @@ class ContactChannelController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\ContactChannel  $contactChannel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(ContactChannel $contactChannel)
     {

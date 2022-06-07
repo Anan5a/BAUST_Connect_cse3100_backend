@@ -116,7 +116,6 @@ class DepartmentController extends Controller
 
         }
         return \response()->json(["status"=>"error","message"=>"Update failed"], Response::HTTP_BAD_REQUEST);
-
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class Homepage extends Controller
+class HomepageController extends Controller
 {
     /**
      * Display a listing of the resource.
